@@ -11,9 +11,6 @@
   #define PATH_SEPARATOR '/'
 #endif
 
-#define MAX_PATH_LENGTH 256
-#define MAX_SHADER_SIZE 65536
-
 void AddStreamToString(String* sourceFile, const Stream* stream) {
   int x = 0;
   while (1) {
