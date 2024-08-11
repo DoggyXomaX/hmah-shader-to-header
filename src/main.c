@@ -18,7 +18,15 @@ void AddStreamToString(String* sourceFile, const Stream* stream) {
     if (x == 0) String_Add(sourceFile, "  \"");
     x++;
 
-    if (c == '\n') {
+    if (c == EOF) {
+      String_Add(sourceFile, "\";\n");
+      break;
+    }
+
+    if (c == '\"' || c == '\\') {
+      String_AddChar(sourceFile, '\\');
+    }
+    else if (c == '\n') {
       const size_t prevPosition = ftell(stream->target);
       const char next = fgetc(stream->target);
       if (next == EOF) {
@@ -30,10 +38,7 @@ void AddStreamToString(String* sourceFile, const Stream* stream) {
       x = 0;
       fseek(stream->target, prevPosition, SEEK_SET);
     }
-    if (c == EOF) {
-      String_Add(sourceFile, "\";\n");
-      break;
-    }
+
     String_AddChar(sourceFile, c);
   }
 }
