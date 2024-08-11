@@ -3,7 +3,9 @@
 
 #include <stddef.h>
 
-#define MAX_STRING_SIZE 4096
+#ifndef MAX_STRING_SIZE
+  #define MAX_STRING_SIZE 65536
+#endif
 
 typedef struct String_s {
   char data[MAX_STRING_SIZE];
