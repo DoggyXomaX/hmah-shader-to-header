@@ -23,6 +23,10 @@ void AddStreamToString(String* sourceFile, const Stream* stream) {
       break;
     }
 
+    if (c == '\r') {
+      continue;
+    }
+
     if (c == '\"' || c == '\\') {
       String_AddChar(sourceFile, '\\');
     }
