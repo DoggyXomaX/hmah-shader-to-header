@@ -112,13 +112,13 @@ int main(const int argc, char* argv[]) {
     String_Add(&sourceFile, "const char* ", name, "_fs = \"\"\n");
 
     AddStreamToString(&sourceFile, &g_Streams[ST_FRAGMENT]);
-
-    String_AddChar(&sourceFile, '\n');
-
     // String_Print(&sourceFile);
 
-    Stream_CloseAll();
+    fwrite(sourceFile.data, 1, sourceFile.length, g_Streams[ST_SOURCE].target);
+    Stream_Close(&g_Streams[ST_SOURCE]);
   }
+
+  Stream_CloseAll();
 
   printf("Generated \"%s\" and \"%s\" files\n", headerPath, sourcePath);
 
