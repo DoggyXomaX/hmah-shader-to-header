@@ -4,7 +4,7 @@ project(hmah_shader_to_header)
 set(SOURCES
   src/main.c
   src/input_args.c
-        src/stream.c
+  src/stream.c
   src/string_builder.c
 )
 
