@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 #ifndef MAX_STRING_SIZE
-  #define MAX_STRING_SIZE 65536
+  #define MAX_STRING_SIZE 65535
 #endif
 
 typedef struct String_s {
