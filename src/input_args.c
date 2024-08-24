@@ -97,4 +97,6 @@ void InputArgs_PrintHelp() {
 
     putchar('\n');
   }
+
+  printf("\t-h --help - Show this help\n");
 }
