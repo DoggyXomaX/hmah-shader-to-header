@@ -5,11 +5,11 @@
 
 enum ArgType {
   AT_NAME,
-  AT_VERTEX,
-  AT_FRAGMENT,
-  AT_HEADER,
-  AT_SOURCE,
-  AT_HELP,
+  AT_SHADERS,
+  AT_OUTPUT,
+  AT_HEADER_OUTPUT,
+  AT_INCLUDE,
+  AT_HEADER_GUARD,
   MAX_ARG_COUNT,
 };
 
@@ -19,7 +19,6 @@ typedef struct Arg_s {
   const char* value;
   const char* description;
   bool isRequired;
-  bool hasValue;
 } Arg;
 
 extern Arg g_Args[MAX_ARG_COUNT];

@@ -4,12 +4,12 @@
 #include <string.h>
 
 Arg g_Args[MAX_ARG_COUNT] = {
-  { .shortName = "-n", .name = "--name", .description = "Name of the shader", .value = NULL, .hasValue = true, .isRequired = true },
-  { .shortName = "-v", .name = "--vertex", .description = "Vertex shader path", .value = NULL, .hasValue = true, .isRequired = true },
-  { .shortName = "-f", .name = "--fragment", .description = "Fragment shader path", .value = NULL, .hasValue = true, .isRequired = true },
-  { .shortName = "-m", .name = "--header", .description = "Output header path", .value = NULL, .hasValue = true, .isRequired = true },
-  { .shortName = "-s", .name = "--source", .description = "Output source path", .value = NULL, .hasValue = true, .isRequired = true },
-  { .shortName = "-h", .name = "--help", .description = "Show this help", .value = NULL, .hasValue = false, .isRequired = false },
+  { .shortName = "-n", .name = "--name", .description = "Shader name", .isRequired = true },
+  { .shortName = "-s", .name = "--shaders", .description = "Shaders path", .isRequired = false },
+  { .shortName = "-o", .name = "--output", .description = "Output dir", .isRequired = false },
+  { .shortName = "-m", .name = "--header-output", .description = "Header output override", .isRequired = false },
+  { .shortName = "-i", .name = "--include", .description = "Source header include path override", .isRequired = false },
+  { .shortName = "-g", .name = "--guard", .description = "Header guard override", .isRequired = false },
 };
 
 int InputArgs_Get(const int argc, char* argv[]) {
@@ -18,6 +18,20 @@ int InputArgs_Get(const int argc, char* argv[]) {
     return 1;
   }
 
+  // Check if help flag was provided in args
+  for (int i = 1; i < argc; i++) {
+    if (strcmp("-h", argv[i]) == 0 || strcmp("--help", argv[i]) == 0) {
+      InputArgs_PrintHelp();
+      return 1;
+    }
+  }
+
+  // Reset args values to NULL
+  for (int i = 0; i < MAX_ARG_COUNT; i++) {
+    g_Args[i].value = NULL;
+  }
+
+  // Collect args
   for (int i = 1; i < argc; i += 2) {
     if (i + 1 >= argc) break;
 
@@ -25,7 +39,6 @@ int InputArgs_Get(const int argc, char* argv[]) {
     const char* value = argv[i + 1];
 
     for (int j = 0; j < MAX_ARG_COUNT; j++) {
-      if (!g_Args[j].hasValue) continue;
       if (
         g_Args[j].shortName != NULL && strcmp(name, g_Args[j].shortName) == 0 ||
         g_Args[j].name != NULL && strcmp(name, g_Args[j].name) == 0
@@ -36,6 +49,7 @@ int InputArgs_Get(const int argc, char* argv[]) {
     }
   }
 
+  // Validate required args
   for (int i = 0; i < MAX_ARG_COUNT; i++) {
     const Arg* arg = &g_Args[i];
     if (
@@ -64,7 +78,7 @@ int InputArgs_Get(const int argc, char* argv[]) {
 }
 
 void InputArgs_PrintHelp() {
-  printf("Usage: hsth -n name -v vertex.vs -f fragment.fs -m shader.h -s shader.c\n\n");
+  printf("Common usage: hsth -n <shader_name>\n\n");
 
   for (int i = 0; i < MAX_ARG_COUNT; i++) {
     const Arg* arg = &g_Args[i];
@@ -79,7 +93,7 @@ void InputArgs_PrintHelp() {
       printf("%s", arg->name);
     }
 
-    if (arg->description)  printf(" - %s", arg->description);
+    if (arg->description) printf(" - %s", arg->description);
 
     putchar('\n');
   }
