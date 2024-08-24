@@ -13,8 +13,10 @@ typedef struct String_s {
 } String;
 
 String String_Create(const char* text);
+String String_From(const String* other);
 
 void String_Push(String* this, const char* text);
+void String_PushString(String* this, const String* other);
 void String_Add_impl(String* this, const char* text, ...);
 void String_AddChar(String* this, char c);
 void String_ToUpper(String* this);

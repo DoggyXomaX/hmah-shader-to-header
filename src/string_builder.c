@@ -18,6 +18,20 @@ String String_Create(const char* text) {
   return string;
 }
 
+String String_From(const String* other) {
+  if (other == NULL) {
+    return (String){ .length = 0, .data = { 0 } };
+  }
+
+  String string;
+
+  string.length = other->length;
+  strncpy(string.data, other->data, MAX_STRING_SIZE);
+  string.data[string.length] = 0;
+
+  return string;
+}
+
 void String_Push(String* this, const char* text) {
   if (text == NULL) return;
 
@@ -28,6 +42,20 @@ void String_Push(String* this, const char* text) {
   strncpy(this->data + this->length, text, maxCopyLength);
 
   this->length += maxCopyLength < textLength ? maxCopyLength : textLength;
+  this->data[this->length] = 0;
+}
+
+void String_PushString(String* this, const String* other) {
+  if (this == NULL || other == NULL) return;
+
+  const size_t textLength = other->length;
+  const int maxCopyLength = MAX_STRING_SIZE - (int)this->length - 1;
+  if (maxCopyLength <= 0) return;
+
+  strncpy(this->data + this->length, other->data, maxCopyLength);
+
+  this->length += maxCopyLength < other->length ? maxCopyLength : other->length;
+  this->data[this->length] = 0;
 }
 
 void String_Add_impl(String* this, const char* text, ...) {
