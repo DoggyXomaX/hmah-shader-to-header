@@ -2,65 +2,85 @@
 
 It takes the vertex and fragment shader files and converts them into a header file (.h) and a source file (.c).
 
-## Requirements
+## Downloads
 
-![CMake 3.14^](https://img.shields.io/badge/CMake-3.14^-green)
+* [v1.0.0]()
 
 ## Usage
 
-> Note: The `shader_name` should be the same as the header and source filenames
+```shell
+> hsth --help
+Common usage: hsth -n <shader_name>
+
+	-n --name - Shader name
+	-s --shaders - Shaders path
+	-o --output - Output dir
+	-m --header-output - Header output override
+	-i --include - Source header include path override
+	-g --guard - Header guard override
+	-h --help - Show this help
+```
+
+## Build
+
+![CMake 3.14^](https://img.shields.io/badge/CMake-3.14^-green)
 
 ```shell
-./hsth -n shader_name -v vertex.vs -f fragment.fs -m shader_name.h -s shader_name.c
+cd /path/to/hmah-shader-to-header
+mkdir build
+cd build
+cmake ..
+
+# Windows
+cmake --build . --config Release
+
+# Linux
+cmake --build .
 ```
 
-Will generate:
+### Options
 
-**shader_name.h**
-```c++
-#ifndef __SHADER_NAME_H__
-#define __SHADER_NAME_H__
+`HMAH_MAX_STRING_SIZE` (default: 65535) - Max string size for the source/header file
 
-extern const char* shader_name_vs;
-extern const char* shader_name_fs;
+## Example
 
-#endif // __SHADER_NAME_H__
+Directory files: `image.vs`, `image.fs`
+
+```shell
+hsth -n image
 ```
 
-**shader_name.c**
-```c++
-#include "shader_name.h"
+Will generate: `image.h`, `image.c`
 
-const char* shader_name_vs = ""
+**image.h**
+```c++
+#ifndef __HSTH_IMAGE_H__
+#define __HSTH_IMAGE_H__
+
+extern const char* image_vs;
+extern const char* image_fs;
+
+#endif // __HSTH_IMAGE_H__
+```
+
+**image.c**
+```c++
+#include "image.h"
+
+const char* image_vs = ""
   "#version 330 core\n"
   "\n"
   "void main() {\n"
   "    gl_Position = vec4(0, 0, 0, 1);\n"
   "}";
 
-const char* shader_name_fs = ""
+const char* image_fs = ""
   "#version 330 core\n"
   "\n"
   "void main() {\n"
   "    gl_FragColor = vec4(0, 0, 0, 1);\n"
   "}";
-
 ```
-
-## Build
-
-```shell
-cd /path/to/hmah-shader-to-header
-mkdir build
-cd build
-cmake -S .. -B .
-cmake --build .
-# *hsth appears*
-```
-
-### Options
-
-`HMAH_MAX_STRING_SIZE` (default: 65535) - Max string size for the source/header file
 
 ## License
 
