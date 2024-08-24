@@ -4,7 +4,7 @@ It takes the vertex and fragment shader files and converts them into a header fi
 
 ## Downloads
 
-* [v1.0.0]()
+* [v1.0.0](https://github.com/DoggyXomaX/hmah-shader-to-header/releases/tag/v1.0.0)
 
 ## Usage
 
