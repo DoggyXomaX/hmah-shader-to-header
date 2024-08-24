@@ -10,9 +10,6 @@ set(SOURCES
 
 set(HMAH_MAX_STRING_SIZE 65535 CACHE STRING "Max string size for the source/header file")
 
-set(ROOT_DIR "${CMAKE_BINARY_DIR}/..")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${ROOT_DIR}/bin")
-
 add_executable(hsth ${SOURCES})
 target_compile_definitions(hsth PRIVATE
   MAX_STRING_SIZE=${HMAH_MAX_STRING_SIZE}
